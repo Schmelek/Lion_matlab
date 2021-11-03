@@ -70,7 +70,7 @@ for i=1:2*N
         end
     end 
 end
-%% Heatmap radial
+%% Heatmap
 subplot(1,2,1);
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'ascend')';
 tmp_radial = tmp(2:end, :);
