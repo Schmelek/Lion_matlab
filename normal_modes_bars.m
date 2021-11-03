@@ -39,7 +39,7 @@ end
 
 [x_eq, y_eq, z_eq, norm_modes, frs, w_n, l] = get_modes(masses, chars, RF, ax, qx);
 
-%%
+%% Bars
 for i=1:2*N
     subplot(N,2,i)
     if mod(i,2) == 1 
@@ -71,6 +71,7 @@ for i=1:2*N
     end 
 end
 %% Heatmap radial
+subplot(1,2,1);
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'ascend')';
 tmp_radial = tmp(2:end, :);
 h = heatmap(tmp_radial','CellLabelColor','none');
@@ -78,8 +79,7 @@ colormap(redblueu(100));
 title('Radial normal modes');
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
-
-%% Heatmap axial
+subplot(1,2,2)
 tmp = sortrows([frs(2*N+1:3*N)';norm_modes(2*N+1:end, 2*N+1:3*N)]', 'ascend')';
 tmp_axial = tmp(2:end, :);
 h = heatmap(tmp_axial','CellLabelColor','none');
