@@ -12,7 +12,7 @@ eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 
 RF = 6e6;
-qx = 0.6;  
+qx = 0.06;  
 ax = -0.0007;  
 qy = qx;
 ay = ax;

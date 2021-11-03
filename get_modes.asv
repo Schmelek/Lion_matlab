@@ -114,18 +114,14 @@ spmodes = massmat*arm*massmat;
     ansmodes = modes;
     norm_modes = ansmodes;
     
-    tmp_norm_modes = [frs'; norm_modes];
-    tmp_norm_modes = sortrows(tmp_norm_modes', 2+2*N, 'descend', 'ComparisonMethod','abs')';
-    tmp_norm_modes = sortrows(tmp_norm_modes', 2+N, 'descend', 'ComparisonMethod','abs')';
-    tmp_norm_modes = sortrows(tmp_norm_modes', 2, 'descend', 'ComparisonMethod','abs')';
-    norm_modes = tmp_norm_modes(2:end, :);
-    frs = tmp_norm_modes(1, :)'; 
-
-    z_eq = (z(:, end));
+tmp_norm_modes = [frs'; norm_modes];
+tmp_norm_modes = sortrows(tmp_norm_modes', 2+2*N, 'descend', 'ComparisonMethod','abs')';
+tmp_norm_modes = sortrows(tmp_norm_modes', 2+N, 'descend', 'ComparisonMethod','abs')';
+tmp_norm_modes = sortrows(tmp_norm_modes', 2, 'descend', 'ComparisonMethod','abs')';
+norm_modes = tmp_norm_modes(2:end, :);
+frs = tmp_norm_modes(1, :)';     
+    z_eq = vpa(z(:, end));
     x_eq = vpa(x(:, end));
     y_eq = vpa(y(:, end));
     w_ind = wz(ind);
     l_out = l;
-    if isreal(frs) == 0
-        error('Frequencies are complex')
-    end
