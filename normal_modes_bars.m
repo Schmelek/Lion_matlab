@@ -9,7 +9,7 @@ eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 RF = 6e6;
 qx = 0.6;  
-ax = -0.00007;  
+ax = -0.0007;  
 qy = qx;
 ay = ax;
 az = -2*ax;
@@ -24,7 +24,7 @@ l = [];
 Ca_40_ind = [];
 AncillaIon_ind = [];
 
-masses = [43 40 40 40 43 40 40 40 43 40 40 40 43 40 40 40 43 40 40 40 43 40 40 40 43];
+masses = [43 40 40 40 40 40 43 40 40 40 40 40 43 40 40 40 40 40 43 40 40 40 40 40 43];
 chars = ones(1, size(masses, 2));
 N = size(masses, 2);
 
@@ -75,7 +75,7 @@ subplot(1,2,1);
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'ascend')';
 tmp_radial = tmp(2:end, :);
 h = heatmap(tmp_radial','CellLabelColor','none');
-colormap(redblueu(100));
+colormap(redblueu(200));
 title('Radial normal modes');
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
@@ -83,7 +83,7 @@ subplot(1,2,2)
 tmp = sortrows([frs(2*N+1:3*N)';norm_modes(2*N+1:end, 2*N+1:3*N)]', 'ascend')';
 tmp_axial = tmp(2:end, :);
 h = heatmap(tmp_axial','CellLabelColor','none');
-colormap(redblueu(100));
+colormap(redblueu(200));
 title('Axial normal modes');
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
