@@ -9,7 +9,7 @@ eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 RF = 6e6;
 qx = 0.6;  
-ax = -0.0007;  
+ax = -0.00007;  
 qy = qx;
 ay = ax;
 az = -2*ax;
@@ -24,18 +24,9 @@ l = [];
 Ca_40_ind = [];
 AncillaIon_ind = [];
 
-masses = [43 40 40 40 40 40 43 40 40 40 40 40 43 40 40 40 40 40 43 40 40 40 40 40 43];
+masses = [80 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 80  40 40 40 40 40 40 40 40 80];
 chars = ones(1, size(masses, 2));
 N = size(masses, 2);
-
-for j=1:N
-    if masses(j) == 40
-        Ca_40_ind(end+1) = j;
-
-    else
-        AncillaIon_ind(end+1) = j;
-    end
-end
 
 [x_eq, y_eq, z_eq, norm_modes, frs, w_n, l] = get_modes(masses, chars, RF, ax, qx);
 

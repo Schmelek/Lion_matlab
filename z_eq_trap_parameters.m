@@ -9,8 +9,8 @@ eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 % Trap parameters
 
-Vac = 700;  % AC-voltage, V
-Udc = 2;   % DC radial voltage, V
+Vac = 850;  % AC-voltage, V
+Udc = 3;   % DC radial voltage, V
 RF = 25e6; % Radiofrequency, Hz
 
 r0 = 0.624e-3; % radial geometric constant, m
@@ -34,7 +34,7 @@ l = [];
 Ca_40_ind = [];
 AncillaIon_ind = [];
 
-masses = [40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40];
+masses = [80 40 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 40 80];
 chars = ones(1, size(masses, 2));
 N = size(masses, 2);
 
@@ -50,4 +50,4 @@ opts.StartPoint = [0.234419756878536 0.206164801457355];
 [fitresult, gof] = fit( xData, yData, ft, opts );
 fitresult.a
 %%
-average_distance = [1.8593e-05, ];
+average_distance = [1.1750e-05, 1.6899e-05, 1.1702e-05, 1.1783e-05, 1.6939e-05];
