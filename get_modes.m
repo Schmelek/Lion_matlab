@@ -3,9 +3,10 @@ ech = 1.602176634e-19;  % electron charge, C
 amu = 1.66053906660e-27;    % atomic mass unit, kg
 eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
-qy = qx;
+qy = -qx;
 ay = ax;
 az = -2*ax;
+
 sim = LAMMPSSimulation();
 sim.SetSimulationDomain(1e-2,1e-2,1e-2);
 
@@ -14,25 +15,46 @@ N = size(masses,2);  % number of ions
 %type = [1 2 3 ]; % the type of ions
 
 % Set the index of ion with respect to which you want to calculate the modes.
-ind = 2;
+ind = find(masses == 40, 1);
 %trapmass = masses(ind);
 
+%% Atoms and traps initializing
 wx = zeros(N, 1);   % column for x-axis secular frequencies
 wy = zeros(N, 1);   % column for y-axis secular frequencies
 wz = zeros(N, 1);   % column for axial secular frequencies
 
-for i = 1:N
-    ions = sim.AddAtomType(chars(i), masses(i));    % add i_th ion
-    cor = (-N/2+i)*1e-5;    % z-coordinate of i_th ion
-    corAtoms = placeAtoms(sim, ions, 0, 0, cor);    % place atoms to the cor
-    % calculation of secular frequencies for i_th ion
-    wx(i) = RF/2*sqrt(ax*masses(2)/masses(i)+(qx*masses(2)/masses(i))^2/2);
-    wy(i) = RF/2*sqrt(ay*masses(2)/masses(i)+(qy*masses(2)/masses(i))^2/2);
-    wz(i) = RF/2*sqrt(az*masses(2)/masses(i));
-    sim.Add(my_PTrap(wx(i), wy(i), wz(i), ions));   % adds Paul trap in 
-    % pseudopotential approximation, it's own trap for each ion
+Ion_type_1st = sim.AddAtomType(chars(1), masses(1));
+Ion_type = [Ion_type_1st];
+pointer_array = [1];
+
+for i = 1:(N-1)
+    if ismember(masses(i+1), masses(1:i)) == true
+       pointer_array(end+1) = find(masses(1:i) == masses(i+1), 1);
+    else
+       Ion_type(end+1) = sim.AddAtomType(chars(i+1), masses(i+1));
+       pointer_array(end+1) = i+1;
+    end
 end
 
+if mod(N,2) == 1
+    cor = -(N-1)/2:1:(N-1)/2;
+else
+    cor = -N/2:1:N/2;
+end
+
+wx = RF/2*sqrt(ax*masses(ind)./masses+(qx*masses(ind)./masses).^2/2);
+wy = RF/2*sqrt(ax*masses(ind)./masses+(qx*masses(ind)./masses).^2/2);
+wz = RF/2*sqrt(az*masses(ind)./masses);
+
+for i =1:N
+    ions = placeAtoms(sim, Ion_type(pointer_array(i)), 0, 0, cor(i)*1e-5);
+end
+
+for i=1:size(Ion_type, 2)
+    sim.Add(my_PTrap(wx(find(pointer_array == i,1)), wy(find(pointer_array == i,1)), wz(find(pointer_array == i,1)), Ion_type(i)));
+end
+    
+%% Langevin bath & execution
 T = 0;
 bath=langevinBath(T, 3e-6);
 sim.Add(bath);
@@ -41,9 +63,9 @@ sim.Add(dump('positions.txt', {'id', 'mass', 'q', 'x', 'y', 'z'}, 1));
 sim.Add(dump('secV.txt', {'id', timeAvg({'vx', 'vy', 'vz'}, 1/RF)}));
 
 % Run simulation
-sim.Add(evolve(50000));
+sim.Add(evolve(100000));
 sim.Execute();
-
+%% Normal modes
 [timesteps, id, mass, q, x,y,z] = readDump('positions.txt');
 time = timesteps*sim.TimeStep;
 
@@ -52,7 +74,6 @@ for i=1:size(timesteps,2)
     if sumabs(round(mass(:,i)/amu)' - masses)>0
         error('The form of the crystal has changed (masses)! Fix it.')
     end
-
 end
 if sumabs(round(q(:,end)/ech)' - chars)>0
     error('The form of the crystal has changed (charges)! Fix it.')

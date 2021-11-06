@@ -9,8 +9,8 @@ eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 RF = 6e6;
 qx = 0.6;  
-ax = -0.00007;  
-qy = qx;
+ax = -0.00004;  
+qy = -qx;
 ay = ax;
 az = -2*ax;
 
@@ -24,11 +24,11 @@ l = [];
 Ca_40_ind = [];
 AncillaIon_ind = [];
 
-masses = [80 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 80  40 40 40 40 40 40 40 40 80];
+masses = [80 40 40 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 40 40 80 40 40 40 40 40 40 40 40 40 40 80];
 chars = ones(1, size(masses, 2));
 N = size(masses, 2);
 
-[x_eq, y_eq, z_eq, norm_modes, frs, w_n, l] = get_modes(masses, chars, RF, ax, qx);
+[x_eq, y_eq, z_eq, norm_modes, frs, w_n, l] = get_modes_improved(masses, chars, RF, ax, qx);
 
 %% Bars
 for i=1:2*N
@@ -78,11 +78,3 @@ colormap(redblueu(200));
 title('Axial normal modes');
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
-%% tmp
-average_25_ions_z = 1.546e-05;
-average_9_ions_z = 2.667e-05 
-%% Z_eq plot
-plot(z_eq, 'b.-')
-xlabel('Number ion');
-ylabel('Z equilibrium');
-hold on;
