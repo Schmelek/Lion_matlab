@@ -8,7 +8,7 @@ amu = 1.66053906660e-27;    % atomic mass unit, kg
 eps0 = 8.8541878128e-12;    % vacuum electric permittivity
 
 Vac = 850;  % AC-voltage, V
-Udc = 3;   % DC radial voltage, V
+Udc = 2;   % DC radial voltage, V
 RF = 25e6; % Radiofrequency, Hz
 
 r0 = 0.624e-3; % radial geometric constant, m
@@ -32,7 +32,7 @@ l = [];
 Ca_40_ind = [];
 AncillaIon_ind = [];
 
-masses = [43 43 43 40 40 40 40 40 40 40];
+masses = [88 40 40 40 40 40 40 40 40 40 88 40 40 40 40 40 40 40 40 40 88 40 40 40 40 40 40 40 40 40 88 40 40 40 40 40 40 40 40 40 88];
 chars = ones(1, size(masses, 2));
 N = size(masses, 2);
 
@@ -71,11 +71,12 @@ for i=1:2*N
 end
 %% Heatmap
 tick = 2;
-subplot(1,2,1);
+
+subplot('Position', [0.05 0.1 0.25 0.9]);
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'ascend')';
 tmp_radial = tmp(2:end, :);
 h = heatmap(tmp_radial','CellLabelColor','none');
-colormap(redblue(200));
+colormap(redblueu(200));
 title('Radial normal modes');
 grid off;
 CustomXLabels = string(1:N);
@@ -86,10 +87,13 @@ CustomYLabels(mod(1:N,tick) ~= 0) = " ";
 h.YDisplayLabels = CustomYLabels;
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
-% subplot(1,4,2);
-% tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'descend')';
-% barh(tmp(1, :), 1);
-subplot(1,2,2)
+
+subplot('Position', [0.37 0.1 0.12 0.9]);
+tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'descend')';
+b = barh(tmp(1, :), 1);
+set(gca, 'YTick', []);
+
+subplot('Position', [0.525 0.1 0.25 0.9]);
 tmp = sortrows([frs(2*N+1:3*N)';norm_modes(2*N+1:end, 2*N+1:3*N)]', 'ascend')';
 tmp_axial = tmp(2:end, :);
 h = heatmap(tmp_axial','CellLabelColor','none');
@@ -104,9 +108,12 @@ grid off;
 title('Axial normal modes');
 h.XLabel = 'Ion number';
 h.YLabel = 'Mode number';
-% subplot(1,4,4);
-% tmp = sortrows([frs(2*N+1:3*N)';norm_modes(2*N+1:end, 2*N+1:3*N)]', 'descend')';
-% barh(tmp(1, :), 1)
+
+subplot('Position', [0.855 0.1 0.12 0.9]);
+tmp = sortrows([frs(2*N+1:3*N)';norm_modes(2*N+1:end, 2*N+1:3*N)]', 'descend')';
+b = barh(tmp(1, :), 1);
+set(gca, 'YTick', []);
+
 %%
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'descend')';
 tmp_frs_radial = tmp(1, :);
