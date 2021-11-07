@@ -29,10 +29,10 @@ pointer_array = [1];
 
 for i = 1:(N-1)
     if ismember(masses(i+1), masses(1:i)) == true
-       pointer_array(end+1) = find(masses(1:i) == masses(i+1), 1);
+       pointer_array(end+1) = max(pointer_array);
     else
        Ion_type(end+1) = sim.AddAtomType(chars(i+1), masses(i+1));
-       pointer_array(end+1) = i+1;
+       pointer_array(end+1) = max(pointer_array) + 1;
     end
 end
 
@@ -143,8 +143,8 @@ spmodes = massmat*arm*massmat;
     frs = tmp_norm_modes(1, :)'; 
 
     z_eq = (z(:, end));
-    x_eq = vpa(x(:, end));
-    y_eq = vpa(y(:, end));
+    x_eq = (x(:, end));
+    y_eq = (y(:, end));
     w_ind = wz(ind);
     l_out = l;
     if isreal(frs) == 0
