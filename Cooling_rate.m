@@ -87,7 +87,7 @@ for i=1:size(array,1)
     wy = zeros(N, 1);   % column for y-axis secular frequencies
     wz = zeros(N, 1);   % column for axial secular frequencies
 
-    [tmp_x_eq, tmp_y_eq, tmp_z_eq, tmp_norm_modes, tmp_frs, tmp_w_n, tmp_l] = get_modes(masses, chars, RF, ax, qx);
+    [~,~,~,tmp_x_eq, tmp_y_eq, tmp_z_eq, tmp_norm_modes, tmp_frs, tmp_w_n, tmp_l] = get_modes(masses, chars, RF, ax, qx);
     x_eq = [x_eq; tmp_x_eq];
     y_eq = [y_eq; tmp_y_eq];
     z_eq = [z_eq; tmp_z_eq];

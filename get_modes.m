@@ -1,4 +1,4 @@
-function [x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out] = get_modes(masses, chars, RF, ax, qx)
+function [x, y, z, x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out] = get_modes(masses, chars, RF, ax, qx)
 ech = 1.602176634e-19;  % electron charge, C
 amu = 1.66053906660e-27;    % atomic mass unit, kg
 eps0 = 8.8541878128e-12;    % vacuum electric permittivity
@@ -150,3 +150,4 @@ spmodes = massmat*arm*massmat;
     if isreal(frs) == 0
         error('Frequencies are complex')
     end
+    
