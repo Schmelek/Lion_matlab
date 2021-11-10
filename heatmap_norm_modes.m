@@ -14,7 +14,7 @@ for i = 1:(N-1)
 end
 tmp = max(pointer_array);
 color_column_unit = (0:1/tmp:1)';
-map_unit = [zeros(tmp, 2), color_column_unit(2:end)];
+map_unit = [zeros(tmp,1), color_column_unit(2:end), color_column_unit(2:end)];
 map = map_unit(pointer_array, :);
 
 subplot('Position', [0.05 0.7 0.9 0.25])

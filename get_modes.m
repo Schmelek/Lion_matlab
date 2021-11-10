@@ -1,4 +1,10 @@
-function [x, y, z, x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out] = get_modes(masses, chars, RF, ax, qx)
+function [x, y, z, x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out] = get_modes(masses, chars, RF, ax, qx, tweezer_w)
+
+if ~exist('tweezer_w', 'var')
+    tweezer_w = zeros(1, size(masses, 2));
+end
+    
+
 ech = 1.602176634e-19;  % electron charge, C
 amu = 1.66053906660e-27;    % atomic mass unit, kg
 eps0 = 8.8541878128e-12;    % vacuum electric permittivity
@@ -95,9 +101,9 @@ am = zeros(N*3);    % matrix for Hessian calculation
 mw2 = masses(ind)*amu*(wz(ind)*2*pi)^2; 
 
 for i=1:N
-am(i,i)=mass(i)*(wx(i)*2*pi)^2/mw2;
-         am(i+N,i+N)=mass(i)*(wy(i)*2*pi)^2/mw2;
-         am(i+2*N,i+2*N)=mass(i)*(wz(i)*2*pi)^2/mw2;
+    am(i,i)=mass(i)*(wx(i)*(1 + tweezer_w(i))*2*pi)^2/mw2;
+    am(i+N,i+N)=mass(i)*(wy(i)*2*pi)^2/mw2;
+    am(i+2*N,i+2*N)=mass(i)*(wz(i)*(1 + tweezer_w(i))*2*pi)^2/mw2;
     for j=1:N
        if i ~= j
         dij = sqrt((u(i)-u(j))^2+(v(i)-v(j))^2+(w(i)-w(j))^2)/chars(i)/chars(j);
