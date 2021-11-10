@@ -1,7 +1,14 @@
-function heatmap_norm_modes(masses, norm_modes, frs, w_n, x_eq, y_eq, z_eq) 
+function heatmap_norm_modes(masses, norm_modes, frs, w_n, x_eq, y_eq, z_eq, tweezer_w) 
+if ~exist('tweezer_w', 'var')
+    tweezer_w = zeros(1, size(masses,2));
+end
+
 tick = 2;
 N = size(norm_modes, 1)/3;
 %% Equilibrium structure part
+
+tweezer_pointer_array = zeros(size(tweezer_w, 2), 1);
+tweezer_pointer_array(find(tweezer_w ~= 0)) = 1;
 
 pointer_array = [1];
 
@@ -13,9 +20,10 @@ for i = 1:(N-1)
     end
 end
 tmp = max(pointer_array);
-color_column_unit = (0:1/tmp:1)';
+color_column_unit = (0:0.7/tmp:0.7)';
 map_unit = [zeros(tmp,1), color_column_unit(2:end), color_column_unit(2:end)];
 map = map_unit(pointer_array, :);
+map(:, 1) = tweezer_pointer_array;
 
 subplot('Position', [0.05 0.7 0.9 0.25])
 scatter3(z_eq, x_eq, y_eq, 80,map, 'filled')
