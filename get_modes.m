@@ -66,7 +66,7 @@ bath=langevinBath(T, 3e-6);
 sim.Add(bath);
 
 sim.Add(dump('positions.txt', {'id', 'mass', 'q', 'x', 'y', 'z'}, 1));
-sim.Add(dump('secV.txt', {'id', timeAvg({'vx', 'vy', 'vz'}, 1/RF)}));
+% sim.Add(dump('secV.txt', {'id', timeAvg({'vx', 'vy', 'vz'}, 1/RF)}));
 
 % Run simulation
 sim.Add(evolve(100000));
@@ -103,7 +103,7 @@ mw2 = masses(ind)*amu*(wz(ind)*2*pi)^2;
 for i=1:N
     am(i,i)=mass(i)*(wx(i)*(1 + tweezer_w(i))*2*pi)^2/mw2;
     am(i+N,i+N)=mass(i)*(wy(i)*2*pi)^2/mw2;
-    am(i+2*N,i+2*N)=mass(i)*(wz(i)*(1 + tweezer_w(i))*2*pi)^2/mw2;
+    am(i+2*N,i+2*N)=mass(i)*((wz(i) + wx(i)*tweezer_w(i))*2*pi)^2/mw2;
     for j=1:N
        if i ~= j
         dij = sqrt((u(i)-u(j))^2+(v(i)-v(j))^2+(w(i)-w(j))^2)/chars(i)/chars(j);
@@ -152,6 +152,7 @@ spmodes = massmat*arm*massmat;
     x_eq = (x(:, end));
     y_eq = (y(:, end));
     w_ind = wz(ind);
+    
     l_out = l;
     if isreal(frs) == 0
         error('Frequencies are complex')
