@@ -38,7 +38,7 @@ zlabel('y, m');
 subplot('Position', [0.05 0.1 0.25 0.5]);
 tmp = sortrows([frs(1:N)';norm_modes(1:N, 1:N)]', 'ascend')';
 tmp_radial = tmp(2:end, :);
-h = heatmap(tmp_radial','CellLabelColor','none');
+h = heatmap(round(tmp_radial', 3));
 colormap(redblueu(200));
 title('Radial normal modes');
 grid off;

@@ -1,4 +1,4 @@
-function [x, y, z, x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out] = get_modes(masses, chars, RF, ax, qx, tweezer_w)
+function [x, y, z, x_eq, y_eq, z_eq, norm_modes, frs, w_ind, l_out, time] = get_modes(masses, chars, RF, ax, qx, tweezer_w)
 
 if ~exist('tweezer_w', 'var')
     tweezer_w = zeros(1, size(masses, 2));
@@ -48,6 +48,9 @@ else
     cor = -N/2:1:N/2;
 end
 
+ax
+az
+qx
 wx = RF/2*sqrt(ax*masses(ind)./masses+(qx*masses(ind)./masses).^2/2);
 wy = RF/2*sqrt(ax*masses(ind)./masses+(qx*masses(ind)./masses).^2/2);
 wz = RF/2*sqrt(az*masses(ind)./masses);
@@ -65,7 +68,7 @@ T = 0;
 bath=langevinBath(T, 3e-6);
 sim.Add(bath);
 
-sim.Add(dump('positions.txt', {'id', 'mass', 'q', 'x', 'y', 'z'}, 1));
+sim.Add(dump('positions.txt', {'id', 'mass', 'q', 'x', 'y', 'z'}, 100));
 % sim.Add(dump('secV.txt', {'id', timeAvg({'vx', 'vy', 'vz'}, 1/RF)}));
 
 % Run simulation
@@ -93,6 +96,9 @@ end
 massmat = diag(mss);
 l = (((chars(ind) * ech).^2)/(4*pi*eps0)/(masses(ind) * amu *((wz(ind)*2*pi)^2))).^(1/3);
 
+masses(ind)
+wz(ind)
+wz
 % Get spectrum of each normal mode
 u = x(:, end)/l;    
 v = y(:, end)/l;
@@ -133,6 +139,7 @@ for i=1:N
 end
 arm = am*masses(ind)*amu;
 spmodes = massmat*arm*massmat;
+vpa(spmodes)
 
 [modes, spfreqs]=eig(spmodes);
     spfrsq=diag(spfreqs);

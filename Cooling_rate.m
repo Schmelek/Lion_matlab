@@ -112,6 +112,19 @@ for i=1:size(array,1)
                 AncillaIon_ind(end+1) = j;
             end
         end
+        
+% Ion_type_1st = sim.AddAtomType(chars(1), masses(1));
+% Ion_type = [Ion_type_1st];
+% pointer_array = [1];
+% 
+% for i = 1:(N-1)
+%     if ismember(masses(i+1), masses(1:i)) == true
+%        pointer_array(end+1) = pointer_array(find(masses(i+1) == masses(1:i),1));
+%     else
+%        Ion_type(end+1) = sim.AddAtomType(chars(i+1), masses(i+1));
+%        pointer_array(end+1) = max(pointer_array) + 1;
+%     end
+% end
 
 
         for s = 1:N
